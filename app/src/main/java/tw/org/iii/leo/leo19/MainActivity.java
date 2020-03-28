@@ -1,6 +1,7 @@
 package tw.org.iii.leo.leo19;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -42,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
                     viewPager.setCurrentItem(1);
                 }else if(position == (fs.length-1)){
                     viewPager.setCurrentItem(fs.length-2);
+                }else {
+                    actionBar.setSelectedNavigationItem(position-1);
                 }
             }
         });
@@ -58,12 +61,15 @@ public class MainActivity extends AppCompatActivity {
         actionBar.addTab(actionBar.newTab().setText("Page2").setTabListener(myTabListener));
         actionBar.addTab(actionBar.newTab().setText("Page3").setTabListener(myTabListener));
 
+
+
     }
 
     private class MyTabListener implements ActionBar.TabListener{
 
         @Override
         public void onTabSelected(ActionBar.Tab tab, FragmentTransaction ft) {
+            viewPager.setCurrentItem(tab.getPosition()+1,true);
 
         }
 
@@ -108,6 +114,16 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             return fs.length;
+        }
+
+        @Nullable
+        @Override
+        public CharSequence getPageTitle(int position) {
+            String title = "";
+            if(position == 1) title = "Page1";
+            if(position == 2) title = "Page2";
+            if(position == 3) title = "Page3";
+            return title;
         }
     }
 
